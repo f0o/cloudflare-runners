@@ -12,8 +12,10 @@ chmod +x ./gitlab-runner-linux-amd64
 
 export RUNNER_NAME=$(hostname) RUNNER_EXECUTOR=shell
 {
+  echo "<html><head><title>GitLab Runner $(hostname) $(date)</title></head><body><pre>"
   ./gitlab-runner-linux-amd64 register -n
   timeout 900 ./gitlab-runner-linux-amd64 run || true
+  echo "</pre></body>"
 } &> null/index.html
 
 true
