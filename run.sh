@@ -12,9 +12,8 @@ chmod +x ./gitlab-runner-linux-amd64
 
 echo "<html><head><title>CloudFlare Pages - Or: Free CI/CD Runners</title></head><body><p>Full story at: <a href='https://f0o.dev/posts/2021/07/cloudflare-pages-or-free-ci/cd-runners/'>CloudFlare Pages - Or: Free CI/CD Runners</a></p><pre>Start: $(date)</pre><pre>" > null/index.html
 {
-  for i in $(seq $(nproc)); do
-    RUNNER_NAME="$(hostname)-$i" RUNNER_EXECUTOR=shell ./gitlab-runner-linux-amd64 register -n
-  done
+  RUNNER_NAME="$(hostname)" RUNNER_EXECUTOR=shell ./gitlab-runner-linux-amd64 register -n
+  sed -i "s/concurrent = 1/concurrent = $(nproc)/" $HOME/.gitlab-runner/config.toml
   timeout 900 ./gitlab-runner-linux-amd64 run || true
   ./gitlab-runner-linux-amd64 unregister --all-runners || true
 } &>> null/index.html
