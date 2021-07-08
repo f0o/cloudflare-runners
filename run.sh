@@ -16,6 +16,6 @@ echo "<html><head><title>CloudFlare Pages - Or: Free CI/CD Runners</title></head
 {
   ./gitlab-runner-linux-amd64 register -n
   timeout 900 ./gitlab-runner-linux-amd64 run || true
-  ./gitlab-runner-linux-amd64 unregister
+  ./gitlab-runner-linux-amd64 unregister || true
 } &>> null/index.html
 echo "</pre><pre>End: $(date)</pre></body>" >> null/index.html
